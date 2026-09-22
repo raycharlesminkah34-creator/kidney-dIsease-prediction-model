@@ -55,4 +55,4 @@ class Patient(BaseModel):
 
 class PredictionResponse(BaseModel):
     prediction: str
-    ckd_probability: float = Field(ge=0, le=1)
+    probability: float

@@ -1,7 +1,38 @@
 from fastapi.testclient import TestClient
 from api.main import app
+import pytest
+
+@pytest.fixture
+def valid_patient():
+    return {
+            "Age": 55,
+            "Blood Pressure": 80,
+            "SG": 1.015,
+            "Albumin": 2,
+            "Sugar": 0,
+            "RBC": "normal",
+            "Pus Cell": "normal",
+            "PC Clumps": "notpresent",
+            "Bacteria": "notpresent",
+            "Random Glucose": 143,
+            "Blood Urea": 53,
+            "Creatinine": 2.25,
+            "Sodium": 136,
+            "Potassium": 4.5,
+            "Haemoglobin": 10.9,
+            "PCV": 33,
+            "WBC Count": 8000,
+            "RBC Count": 3.8,
+            "Hypertension": "yes",
+            "Diabetes": "yes",
+            "Artery disease": "no",
+            "Appetite": "good",
+            "Petal Edema": "no",
+            "Anaemia": "yes"
+        }
 
 client = TestClient(app)
+
 def test_home():
     response = client.get("/")
     assert response.status_code == 200

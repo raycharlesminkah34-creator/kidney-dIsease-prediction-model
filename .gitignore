@@ -6,6 +6,7 @@ __pycache__/
 .venv/
 venv/
 env/
+.ci-test/
 
 # Testing
 .pytest_cache/

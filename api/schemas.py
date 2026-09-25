@@ -1,6 +1,7 @@
 from enum import Enum
 from pydantic import BaseModel, Field
 
+#THIS IS THE SCHEMA MODEL FOR PYDANTIC
 
 class YesNo(str, Enum):
     yes = "yes"

@@ -1,0 +1,10 @@
+__pycache__
+.pytest_cache
+tests
+*.pyc
+.git
+.gitignore
+README.md
+EDA.ipynb
+*.csv
+.github

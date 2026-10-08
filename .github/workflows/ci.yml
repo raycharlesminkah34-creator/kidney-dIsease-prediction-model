@@ -75,17 +75,6 @@ jobs:
           curl -I --connect-timeout 10 https://github.com
           nc -vz -w 10 example.com 80
 
-      - name: Test API port
-        env:
-          SERVER_IP: ${{ secrets.IP_ADDRESS }}
-        run: |
-          nc -vz -w 10 "$SERVER_IP" 8000
-
-      - name: Test network connection
-        env:
-          SERVER_IP: ${{ secrets.IP_ADDRESS }}
-        run: |
-          nc -vz -w 10 "$SERVER_IP" 22
 
       - name: Deployment Job
         uses: appleboy/ssh-action@v1.2.5

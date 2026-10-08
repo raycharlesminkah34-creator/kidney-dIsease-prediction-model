@@ -69,13 +69,19 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Check SSH key
+      - name: Test SSH connection
         env:
           SSH_KEY: ${{ secrets.SERVER_KEY }}
+          SERVER_IP: ${{ secrets.IP_ADDRESS }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
         run: |
-          echo "Key length: ${#SSH_KEY}"
-          echo "First line: $(echo "$SSH_KEY" | head -n 1)"
-          echo "Last line: $(echo "$SSH_KEY" | tail -n 1)"
+          printf '%s\n' "$SSH_KEY" > deploy_key
+          chmod 600 deploy_key
+          ssh-keygen -lf deploy_key
+          ssh -o StrictHostKeyChecking=no \
+              -o IdentitiesOnly=yes \
+              -i deploy_key \
+              "$SERVER_USER@$SERVER_IP" "echo SSH_SUCCESS"
 
       - name: Deployment Job
         uses: appleboy/ssh-action@v1.2.5
@@ -88,7 +94,6 @@ jobs:
             docker rm ckd-api-container || true
             docker pull ghcr.io/raycharlesminkah34-creator/ckd-api:${{ needs.build-and-push.outputs.image_tag }}
             docker run -d -p 8000:8000 --name ckd-api-container ghcr.io/raycharlesminkah34-creator/ckd-api:${{ needs.build-and-push.outputs.image_tag }}
-
 
 
         

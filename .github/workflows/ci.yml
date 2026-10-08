@@ -69,19 +69,11 @@ jobs:
     needs: build-and-push
 
     steps:
-      - name: Test SSH connection
+      - name: Test network connection
         env:
-          SSH_KEY: ${{ secrets.SERVER_KEY }}
           SERVER_IP: ${{ secrets.IP_ADDRESS }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
         run: |
-          printf '%s\n' "$SSH_KEY" > deploy_key
-          chmod 600 deploy_key
-          ssh-keygen -lf deploy_key
-          ssh -o StrictHostKeyChecking=no \
-              -o IdentitiesOnly=yes \
-              -i deploy_key \
-              "$SERVER_USER@$SERVER_IP" "echo SSH_SUCCESS"
+          nc -vz -w 10 "$SERVER_IP" 22
 
       - name: Deployment Job
         uses: appleboy/ssh-action@v1.2.5
